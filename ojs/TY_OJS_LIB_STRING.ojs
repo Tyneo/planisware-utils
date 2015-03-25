@@ -1,0 +1,28 @@
+/** String utils ***************************************
+ * Improve the String Class
+ *
+ * $Author: skauffmann $
+ * $LastChangedDate: 2014-01-08 12:01:51 +0100 (mer., 08 janv. 2014) $ 
+ * $Rev$
+ *
+ */
+//allow you to check if a substring exist on a text. eg: "il fait beau".contains("fait") retourne TRUE 
+method contains on String(substring) {
+	if(this.stringIsNotNull()) {
+		return this.test("*" + substring + "*");
+	}
+	return false;
+}
+//Transform the given string to have the first letter in upper caser and others in lower case. 
+method capitalize on String() {
+	if(this.stringIsNotNull()) {
+		var text = this.toLowerCase();
+		return text.subString(0, 1).toUpperCase() + text.subString(1, text.length);
+	}
+	return undefined;
+}
+method slugify on String() {
+	if(this.stringIsNotNull()) return this.toUpperCase().replaceregexp(" ", "_");
+	return undefined;
+}
+/**** End of String utils ***************************************/

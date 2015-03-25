@@ -1,0 +1,87 @@
+/** Logger feature ***************************************
+ * Allow you to log information to debug yours scripts
+ *
+ * $Author: skauffmann $
+ * $LastChangedDate: 2014-01-08 11:56:57 +0100 (mer., 08 janv. 2014) $ 
+ * $Rev: 7 $
+ *
+ */
+
+ /**
+ * Class LogLevel: Allow you to define new log level
+ */
+function LogLevel(level, name) {
+	this.rank = level;
+	this.name = name;
+}
+global var LOG_LEVEL_NONE = new LogLevel(0, ""); //No log
+global var LOG_LEVEL_WARN = new LogLevel(1, "WARN"); //Just display warn log
+global var LOG_LEVEL_INFO = new LogLevel(2, "INFO"); //Display Warn and Info messages
+global var LOG_LEVEL_DEBUG = new LogLevel(3, "DEBUG"); //Display all messages
+
+global var LOG_OUT_ALERT = 1; //To display log message on an alert
+global var LOG_OUT_CONSOLE = 2; //To display log message on the console or log file
+
+/**
+ * Class _Logger: Allow you to log information to debug yours scripts.
+ *   To use it, first you have to enable the logger like Logger.setLevel(LOG_LEVEL_DEBUG);
+ *   After doing that, you could register debug message by using Logger.debug("My debug message"); (or warn(), info() and log() methods)
+ */
+function _Logger() {
+	this.level = LOG_LEVEL_WARN;
+	this.output = LOG_OUT_CONSOLE;
+}
+method _registerMessage on _Logger(message, level) {
+	if(level.rank <= this.level.rank) {
+		if(this.output == LOG_OUT_ALERT) //display messages with alerts
+			alert("[" + level.name + "] " + message);
+		else if(this.output == LOG_OUT_CONSOLE) //display messages on the opx2 console
+			writeln("[" + level.name + "] " + message);
+	}
+}
+method _addTraceInformation on _logger(level) {
+	if(level.rank <= this.level.rank && context.Applet InstanceOf opxApplet && context.applet.page != undefined){
+		var page = _re_js_get_origin_page(context.applet.page.name);
+		var moduleName = "";
+		var reporting = ""; 
+		if(page != undefined && page != "") {
+			moduleName = _re_js_get_processes_module_name(page);
+			if(moduleName == "") moduleName = "UNKNOWN";
+			reporting = _re_js_get_selected_reporting(moduleName);
+			if(reporting == "") reporting = "UNKNOWN";
+			this._registerMessage("Context-> user: " + currentOpx2User().name + ", module: " + moduleName + ", page: " + page + ", reporting: " + reporting, level);
+		}
+	}
+}
+//To define a log level
+method setLevel on _Logger(level) {
+	this.level = level;
+}
+//To define the output type
+method setOutput on _Logger(output) {
+	this.output = output;
+}
+//Return true if the logger is enabled
+method isActivate on _Logger() {
+	return this.level.rank > 1 ? true : false;
+}
+//Log a message with an info level
+method log on _Logger(message) {
+	this._registerMessage(message, LOG_LEVEL_INFO);
+}
+//Log a message with an warn level
+method warn on _Logger(message) {
+	this._addTraceInformation(LOG_LEVEL_WARN);
+	this._registerMessage(message, LOG_LEVEL_WARN);
+}
+//Log a message with an debug level
+method debug on _Logger(message) {
+	this._addTraceInformation(LOG_LEVEL_DEBUG);
+	this._registerMessage(message, LOG_LEVEL_DEBUG);
+}
+//Log a message with an info level
+method info on _Logger(message) {
+	this._registerMessage(message, LOG_LEVEL_INFO);
+}
+global var Logger = new _Logger();
+/**** End of Logger feature ***************************************/
