@@ -1,9 +1,7 @@
 /** String utils ***************************************
  * Improve the String Class
  *
- * $Author: skauffmann $
- * $LastChangedDate: 2014-01-08 12:01:51 +0100 (mer., 08 janv. 2014) $ 
- * $Rev$
+ * @Author: Samuel Kauffmann <skauffmann@tyneo.net>
  *
  */
 //allow you to check if a substring exist on a text. eg: "il fait beau".contains("fait") retourne TRUE 

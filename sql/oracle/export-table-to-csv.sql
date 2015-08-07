@@ -2,7 +2,7 @@
   ATTENTION, IL FAUT CREER UNE DIRECTORY ORACLE POUR DESIGNER LE REPERTOIRE DE DESTINATION
   > CREATE OR REPLACE DIRECTORY EXPORT_PLW AS 'E:\Planisware\Data'
   Exemple de script d'appel pour l'export d'une table ou vue AAAAAAA dans AAAAAAA.csv,
-  EXPORT_PLW étant l'objet Oracle de type DIRECTORY :
+  EXPORT_PLW Ã©tant l'objet Oracle de type DIRECTORY :
   > call BT_Extraction_Table ('AAAAAAA','EXPORT_PLW','AAAAAAA.csv');
 */
 
@@ -16,7 +16,7 @@ CREATE OR REPLACE PROCEDURE export_table_to_csv
     PC$DateFMT    in Varchar2 Default 'DD/MM/YYYY', -- Format des dates
     PC$Where      in Varchar2 Default Null,         -- Clause Where de filtrage
     PC$Order      in Varchar2 Default Null,          -- Colonne de tri
-    PC$EspaceEntetes in Varchar2 Default 'O'         -- Si 'O', remplace le caractere _ par un espace dans l'entête
+    PC$EspaceEntetes in Varchar2 Default 'O'         -- Si 'O', remplace le caractere _ par un espace dans l'entï¿½te
   ) IS
   
 LF$Fichier  UTL_FILE.FILE_TYPE ;
@@ -100,8 +100,8 @@ When UTL_FILE.INTERNAL_ERROR then
   LC$Msg := PC$Dir || PC$Nom_Fichier || ' : ' || 'Unspecified PL/SQL error';
   RAISE_APPLICATION_ERROR( -20070, LC$Msg ) ;
 ---------------------------------------------------------------
--- Les exceptions suivantes sont spécifiques à la version 9i --
--- A mettre en commentaire pour une version antérieure       --
+-- Les exceptions suivantes sont spï¿½cifiques ï¿½ la version 9i --
+-- A mettre en commentaire pour une version antï¿½rieure       --
 ---------------------------------------------------------------
 When UTL_FILE.CHARSETMISMATCH Then
   LC$Msg := PC$Dir || PC$Nom_Fichier || ' : ' || 'A file is opened using FOPEN_NCHAR,'
@@ -131,8 +131,8 @@ When UTL_FILE.RENAME_FAILED Then
   LC$Msg := PC$Dir || PC$Nom_Fichier || ' : ' || 'The requested file rename operation failed.';
   RAISE_APPLICATION_ERROR( -20070, LC$Msg ) ;
 -----------------------------------------------------------------
--- Les exceptions précédentes sont spécifiques à la version 9i --
---     mettre en commentaire pour une version antérieure       --
+-- Les exceptions prï¿½cï¿½dentes sont spï¿½cifiques ï¿½ la version 9i --
+--     mettre en commentaire pour une version antï¿½rieure       --
 -----------------------------------------------------------------
 When others Then
   LC$Msg := 'Erreur : ' || To_char( SQLCODE ) || ' sur ouverture du fichier ('

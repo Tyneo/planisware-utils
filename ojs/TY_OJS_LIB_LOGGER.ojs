@@ -1,9 +1,7 @@
 /** Logger feature ***************************************
  * Allow you to log information to debug yours scripts
  *
- * $Author: skauffmann $
- * $LastChangedDate: 2014-01-08 11:56:57 +0100 (mer., 08 janv. 2014) $ 
- * $Rev: 7 $
+ * @Author: Samuel Kauffmann <skauffmann@tyneo.net>
  *
  */
 
